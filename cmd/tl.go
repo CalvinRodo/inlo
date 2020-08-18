@@ -2,12 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
-	"time"
 
 	il "inlo/pkg/il"
+	ts "inlo/pkg/timestamp"
 
 	"github.com/spf13/cobra"
 )
@@ -25,15 +24,9 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("tl called")
 
-		location, err := time.LoadLocation("America/Toronto")
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		currentTime := time.Now().In(location)
-		var f *os.File = il.OpenOrCreateFile(currentTime)
-		il.PrintTimeLine(f, currentTime, strings.Join(args, " "))
+		var f *os.File = il.OpenOrCreateFile(ts.CurrentTime())
 		defer f.Close()
+		il.PrintTimeLine(f, ts.CurrentTime(), strings.Join(args, " "))
 	},
 }
 
