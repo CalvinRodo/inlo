@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	il "inlo/pkg/il"
+
 	"github.com/spf13/cobra"
 )
 
@@ -29,8 +31,8 @@ to quickly create a Cobra application.`,
 		}
 
 		currentTime := time.Now().In(location)
-		var f *os.File = il.il.openOrCreateFile(currentTime)
-		incidentlog.printTimeLine(f, currentTime, strings.Join(args, " "))
+		var f *os.File = il.OpenOrCreateFile(currentTime)
+		il.PrintTimeLine(f, currentTime, strings.Join(args, " "))
 		defer f.Close()
 	},
 }

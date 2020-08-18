@@ -12,14 +12,16 @@ const (
 	lineFormat = "15:04:05"
 )
 
-func printTimeLine(file *os.File, currentTime time.Time, message string) {
+// PrintTimeLine Prints to a timeline entry
+func PrintTimeLine(file *os.File, currentTime time.Time, message string) {
 	line := fmt.Sprintf("%s|TIMELINE - %s\n", currentTime.Format(lineFormat), message)
 	if _, err := file.WriteString(line); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func openOrCreateFile(date time.Time) *os.File {
+// OpenOrCreateFile opens or creates an incidentLog for the day
+func OpenOrCreateFile(date time.Time) *os.File {
 
 	fileName := fmt.Sprintf("%s.md", date.Format(layoutISO))
 	flags := os.O_APPEND | os.O_CREATE | os.O_WRONLY
