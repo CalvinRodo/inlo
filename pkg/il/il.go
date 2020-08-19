@@ -5,6 +5,7 @@ import (
 	"inlo/pkg/timestamp"
 	"log"
 	"os"
+	"strings"
 )
 
 const (
@@ -24,6 +25,17 @@ func PrintLine(cat string, message string) {
 		log.Fatal(err)
 	}
 
+}
+
+// PrintEvent prints a well known Event
+// - INCIDENT ENDED
+func PrintEvent(cat string) {
+	PrintLine(cat, "")
+}
+
+// PrintStrings prints an array of strings as a string joined with a space
+func PrintStrings(cat string, args []string) {
+	PrintLine(cat, strings.Join(args, " "))
 }
 
 func openOrCreateFile() *os.File {
