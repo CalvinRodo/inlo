@@ -2,9 +2,9 @@ package il
 
 import (
 	"fmt"
+	"inlo/pkg/timestamp"
 	"log"
 	"os"
-	"time"
 )
 
 const (
@@ -12,17 +12,23 @@ const (
 	lineFormat = "15:04:05"
 )
 
-// PrintTimeLine Prints to a timeline entry
-func PrintTimeLine(file *os.File, currentTime time.Time, message string) {
-	line := fmt.Sprintf("%s|TIMELINE - %s\n", currentTime.Format(lineFormat), message)
+// PrintLine prints out a line to the log
+func PrintLine(cat string, message string) {
+
+	file := openOrCreateFile()
+	defer file.Close()
+
+	currentTime := timestamp.CurrentTime()
+	line := fmt.Sprintf("%s|%s - %s\n", currentTime.Format(lineFormat), cat, message)
 	if _, err := file.WriteString(line); err != nil {
 		log.Fatal(err)
 	}
+
 }
 
-// OpenOrCreateFile opens or creates an incidentLog for the day
-func OpenOrCreateFile(date time.Time) *os.File {
+func openOrCreateFile() *os.File {
 
+	date := timestamp.CurrentTime()
 	fileName := fmt.Sprintf("%s.md", date.Format(layoutISO))
 	flags := os.O_APPEND | os.O_CREATE | os.O_WRONLY
 	var osPermissions os.FileMode = 0664

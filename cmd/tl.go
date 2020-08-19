@@ -2,11 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os"
+	"inlo/pkg/il"
 	"strings"
-
-	il "inlo/pkg/il"
-	ts "inlo/pkg/timestamp"
 
 	"github.com/spf13/cobra"
 )
@@ -22,11 +19,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tl called")
-
-		var f *os.File = il.OpenOrCreateFile(ts.CurrentTime())
-		defer f.Close()
-		il.PrintTimeLine(f, ts.CurrentTime(), strings.Join(args, " "))
+		il.PrintLine("TIMELINE", strings.Join(args, " "))
+		fmt.Println("Event added")
 	},
 }
 
