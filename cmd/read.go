@@ -19,6 +19,7 @@ import (
 	"bufio"
 	"inlo/halt"
 	"inlo/pkg/attach"
+	"inlo/pkg/il"
 	"log"
 	"os"
 
@@ -51,7 +52,8 @@ to quickly create a Cobra application.`,
 		reader := bufio.NewReader(os.Stdin)
 
 		fileName := args[0]
-		attach.Buffer(fileName, reader)
+		attach.CopyFile(fileName, reader)
+		il.PrintLine("STDIN", attach.MdFileLink(fileName))
 
 	},
 }

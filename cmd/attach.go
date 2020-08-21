@@ -23,6 +23,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"inlo/pkg/attach"
+	"inlo/pkg/il"
 )
 
 // attachCmd represents the attach command
@@ -43,7 +44,8 @@ to quickly create a Cobra application.`,
 		halt.IfErr(err)
 		defer from.Close()
 
-		attach.File(fileName, from)
+		attach.CopyFile(fileName, from)
+		il.PrintLine("FILE", attach.MdFileLink(fileName))
 
 	},
 }
