@@ -17,8 +17,14 @@ package cmd
 
 import (
 	"fmt"
+	"inlo/consts"
+	"inlo/pkg/il"
+	"io"
+	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // attachCmd represents the attach command
@@ -32,7 +38,30 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("attach called")
+
+		fileName := args[0]
+
+		from, err := os.Open(filepath.Join(fileName))
+		if err != nil {
+			panic(err)
+		}
+		defer from.Close()
+
+		toPath := filepath.Join(viper.GetString(consts.LOGDIR), fileName)
+		flags := os.O_RDWR | os.O_CREATE
+		to, err := os.OpenFile(toPath, flags, 0666)
+		if err != nil {
+			panic(err)
+		}
+		defer to.Close()
+
+		_, err = io.Copy(to, from)
+		if err != nil {
+			panic(err)
+		}
+
+		il.PrintLine("FILEATTACHED", fmt.Sprintf("[%s](%s)", fileName, toPath))
+		fmt.Printf("File %s attached\n", fileName)
 	},
 }
 

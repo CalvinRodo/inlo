@@ -24,7 +24,7 @@ func PrintLine(cat string, message string) {
 	defer file.Close()
 
 	currentTime := timestamp.CurrentTime()
-	line := fmt.Sprintf("%s|%s - %s\n", currentTime.Format(lineFormat), cat, message)
+	line := fmt.Sprintf("%s|%s|%s  \n", currentTime.Format(lineFormat), cat, message)
 	if _, err := file.WriteString(line); err != nil {
 		log.Fatal(err)
 	}
