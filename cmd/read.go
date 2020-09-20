@@ -29,13 +29,20 @@ import (
 // readCmd represents the read command
 var readCmd = &cobra.Command{
 	Use:   "read",
-	Short: "A brief description of youraaa command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "read the contents of a pipe into a file",
+	Long: `Read the contents of a pipe into the file passed as the first argument. 
+ex: 
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+inlo read foo.txt << EOF 
+Foo
+Bar
+EOF
+
+and 
+
+ps -ax | inlo read processes.tx
+
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		//fileName := args[0]

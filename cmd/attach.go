@@ -29,7 +29,7 @@ import (
 // attachCmd represents the attach command
 var attachCmd = &cobra.Command{
 	Use:   "attach",
-	Short: "A brief description of your command",
+	Short: "Attack a file",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
