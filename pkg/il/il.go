@@ -2,6 +2,7 @@ package il
 
 import (
 	"fmt"
+	"github.com/mitchellh/go-homedir"
 	"inlo/consts"
 	"inlo/pkg/timestamp"
 	"log"
@@ -44,8 +45,16 @@ func PrintStrings(cat string, args []string) {
 
 func openOrCreateFile() *os.File {
 
+
+	dir, err := homedir.Expand(viper.GetString(consts.LOGDIR))
+
+	// Check if directory is created
+	if err := os.MkdirAll(dir, 0700 ); err != nil && !os.IsExist(err) {
+		log.Fatal(err)
+	}
+
 	date := timestamp.CurrentTime()
-	path := filepath.Join(viper.GetString(consts.LOGDIR), date.Format(layoutISO))
+	path := filepath.Join(dir, date.Format(layoutISO))
 
 	fileName := fmt.Sprintf("%s.md", path)
 	flags := os.O_APPEND | os.O_CREATE | os.O_WRONLY
