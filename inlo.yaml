@@ -1,2 +1,2 @@
-LogDir: '~/logs'
+LogDir: 'logs'
 Files: 'files'
