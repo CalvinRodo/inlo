@@ -17,21 +17,9 @@ package main
 
 import (
 	"inlo/cmd"
-	"inlo/consts"
-
-	"github.com/spf13/viper"
 )
 
 func main() {
-	viper.SetConfigName("inlo")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-
-	viper.SetDefault(consts.LOGDIR, ".")
 	cmd.Execute()
 }

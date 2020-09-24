@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"inlo/pkg/il"
+	"inlo/cmd/il"
 
 	"github.com/spf13/cobra"
 )

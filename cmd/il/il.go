@@ -2,19 +2,16 @@ package il
 
 import (
 	"fmt"
-	"inlo/consts"
-	"inlo/halt"
-	"inlo/pkg/folder"
-	"inlo/pkg/timestamp"
+	"inlo/cmd/folder"
+	"inlo/cmd/halt"
+	"inlo/cmd/settings"
+	"inlo/cmd/timestamp"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/spf13/viper"
 )
 
 const (
-	layoutISO  = "2006-01-02"
 	lineFormat = "15:04:05"
 )
 
@@ -42,14 +39,17 @@ func PrintStrings(cat string, args []string) {
 	PrintLine(cat, strings.Join(args, " "))
 }
 
+func FileNameForToday(dir string) string {
+	date := timestamp.CurrentTime()
+	path := filepath.Join(dir, date.Format(settings.Settings.DateLayout))
+	return fmt.Sprintf("%s.md", path)
+}
 
 func openOrCreateFile() *os.File {
 
-	dir := folder.MakeOrGetDir(viper.GetString(consts.LOGDIR))
-	date := timestamp.CurrentTime()
-	path := filepath.Join(dir, date.Format(layoutISO))
+	dir := folder.MakeOrGetDir(settings.Settings.LogPath)
+	fileName := FileNameForToday(dir)
 
-	fileName := fmt.Sprintf("%s.md", path)
 	flags := os.O_APPEND | os.O_CREATE | os.O_WRONLY
 	var osPermissions os.FileMode = 0664
 

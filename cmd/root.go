@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"inlo/cmd/settings"
 	"log"
 	"os"
 
@@ -38,6 +39,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	settings.Initialize()
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
@@ -74,4 +76,5 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+
 }

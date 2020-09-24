@@ -1,2 +1,4 @@
 LogDir: 'logs'
 Files: 'files'
+DateLayout: '2006-01-02'
+Theme: 'dark'

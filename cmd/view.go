@@ -17,6 +17,13 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/charmbracelet/glamour"
+	"inlo/cmd/attach"
+	"inlo/cmd/folder"
+	"inlo/cmd/halt"
+	"inlo/cmd/il"
+	"inlo/cmd/settings"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -33,8 +40,22 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("view called")
+
+		logFolder := folder.ExpandDir(settings.Settings.LogPath)
+		logFileName := il.FileNameForToday(logFolder)
+		contents := attach.ReadFile(logFileName)
+
+		log := renderFile(contents)
+		out, err := glamour.Render(log, "dark")
+		halt.IfErr(err)
+		fmt.Print(out)
 	},
 }
+
+func renderFile(c []string) string {
+	return strings.Join(c, "\n")
+}
+
 
 func init() {
 	rootCmd.AddCommand(viewCmd)

@@ -18,7 +18,11 @@ import (
 func Build() error {
 	fmt.Println("Building...")
 	cmd := exec.Command("go", "build", "-o", "inlo", ".")
-	return cmd.Run()
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // A custom install step if you need your bin someplace other than go/bin

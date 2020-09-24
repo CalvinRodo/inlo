@@ -17,9 +17,9 @@ package cmd
 
 import (
 	"bufio"
-	"inlo/halt"
-	"inlo/pkg/attach"
-	"inlo/pkg/il"
+	"inlo/cmd/attach"
+	"inlo/cmd/halt"
+	"inlo/cmd/il"
 	"log"
 	"os"
 
@@ -31,16 +31,20 @@ var readCmd = &cobra.Command{
 	Use:   "read",
 	Short: "read the contents of a pipe into a file",
 	Long: `Read the contents of a pipe into the file passed as the first argument. 
-ex: 
+examples
 
+Heredoc:
 inlo read foo.txt << EOF 
 Foo
 Bar
 EOF
 
-and 
-
+Pipe: 
 ps -ax | inlo read processes.tx
+
+Herestring
+FOO="foo bar baz"
+inlo read <<< $FOO
 
 `,
 	Run: func(cmd *cobra.Command, args []string) {

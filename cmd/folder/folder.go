@@ -2,17 +2,25 @@ package folder
 
 import (
 	"github.com/mitchellh/go-homedir"
-	"inlo/halt"
+	"inlo/cmd/halt"
 	"log"
 	"os"
 )
 
-func MakeOrGetDir(path string) string {
+// ExpandDir expand the path
+func ExpandDir(path string) string {
 
 	dir, err := homedir.Expand(path)
 	halt.IfErr(err)
 
-	// Check if directory is created
+	return dir
+}
+
+// MakeOrGetDir create the directory path if it's not already there
+func MakeOrGetDir(path string) string {
+
+	dir := ExpandDir(path)
+
 	if err := os.MkdirAll(dir, 0700 ); err != nil && !os.IsExist(err) {
 		log.Panic(err)
 	}

@@ -1,11 +1,11 @@
 package attach
 
 import (
+	"bufio"
 	"fmt"
-	"github.com/spf13/viper"
-	"inlo/consts"
-	"inlo/halt"
-	"inlo/pkg/folder"
+	"inlo/cmd/folder"
+	"inlo/cmd/halt"
+	"inlo/cmd/settings"
 	"io"
 	"os"
 	"path/filepath"
@@ -15,12 +15,31 @@ import (
 func CopyFile(fileName string, reader io.Reader) {
 
 	to, err := os.OpenFile(toPath(fileName), os.O_RDWR|os.O_CREATE, 0666)
-	halt.IfErr(err)
 	defer to.Close()
+	halt.IfErr(err)
 
 	_, err = io.Copy(to, reader)
 	halt.IfErr(err)
 }
+
+func ReadFile(fileName string) []string {
+
+	file, err := os.Open(fileName)
+	defer file.Close()
+	halt.IfErr(err)
+
+	var fileContents []string
+
+	lineReader := bufio.NewScanner(file)
+
+	for lineReader.Scan() {
+		fileContents = append(fileContents, lineReader.Text())
+	}
+	halt.IfErr(lineReader.Err())
+
+	return fileContents
+}
+
 
 // MdFileLink Prints out a markdown file link
 func MdFileLink(fileName string) string {
@@ -28,6 +47,6 @@ func MdFileLink(fileName string) string {
 }
 
 func toPath(fileName string) string {
-	filesPath := filepath.Join(viper.GetString(consts.LOGDIR), viper.GetString(consts.FILES))
+	filesPath := filepath.Join(settings.Settings.LogPath, settings.Settings.FilesFolder)
 	return filepath.Join(folder.MakeOrGetDir(filesPath), fileName)
 }

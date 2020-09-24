@@ -16,14 +16,14 @@ limitations under the License.
 package cmd
 
 import (
-	"inlo/halt"
+	"inlo/cmd/halt"
 	"os"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
 
-	"inlo/pkg/attach"
-	"inlo/pkg/il"
+	"inlo/cmd/attach"
+	"inlo/cmd/il"
 )
 
 // attachCmd represents the attach command
