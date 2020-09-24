@@ -2,10 +2,10 @@ package il
 
 import (
 	"fmt"
-	"github.com/mitchellh/go-homedir"
 	"inlo/consts"
+	"inlo/halt"
+	"inlo/pkg/folder"
 	"inlo/pkg/timestamp"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -26,9 +26,8 @@ func PrintLine(cat string, message string) {
 
 	currentTime := timestamp.CurrentTime()
 	line := fmt.Sprintf("%s|%s|%s  \n", currentTime.Format(lineFormat), cat, message)
-	if _, err := file.WriteString(line); err != nil {
-		log.Fatal(err)
-	}
+	_, err := file.WriteString(line)
+	halt.IfErr(err)
 
 }
 
@@ -43,16 +42,10 @@ func PrintStrings(cat string, args []string) {
 	PrintLine(cat, strings.Join(args, " "))
 }
 
+
 func openOrCreateFile() *os.File {
 
-
-	dir, err := homedir.Expand(viper.GetString(consts.LOGDIR))
-
-	// Check if directory is created
-	if err := os.MkdirAll(dir, 0700 ); err != nil && !os.IsExist(err) {
-		log.Fatal(err)
-	}
-
+	dir := folder.MakeOrGetDir(viper.GetString(consts.LOGDIR))
 	date := timestamp.CurrentTime()
 	path := filepath.Join(dir, date.Format(layoutISO))
 
@@ -61,9 +54,7 @@ func openOrCreateFile() *os.File {
 	var osPermissions os.FileMode = 0664
 
 	f, err := os.OpenFile(fileName, flags, osPermissions)
-	if err != nil {
-		log.Fatal(err)
-	}
+	halt.IfErr(err)
 
 	return f
 }

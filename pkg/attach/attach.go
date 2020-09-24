@@ -2,13 +2,13 @@ package attach
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"inlo/consts"
 	"inlo/halt"
+	"inlo/pkg/folder"
 	"io"
 	"os"
 	"path/filepath"
-
-	"github.com/spf13/viper"
 )
 
 // CopyFile creates a file in the log from a reader
@@ -28,5 +28,6 @@ func MdFileLink(fileName string) string {
 }
 
 func toPath(fileName string) string {
-	return filepath.Join(viper.GetString(consts.LOGDIR), fileName)
+	filesPath := filepath.Join(viper.GetString(consts.LOGDIR), viper.GetString(consts.FILES))
+	return filepath.Join(folder.MakeOrGetDir(filesPath), fileName)
 }

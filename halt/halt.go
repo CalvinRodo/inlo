@@ -1,8 +1,10 @@
 package halt
 
+import "log"
+
 // IfErr Panic if there is an Error
 func IfErr(err error) {
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 }
