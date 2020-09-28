@@ -29,7 +29,7 @@ func Build() error {
 func Install() error {
 	mg.Deps(Build)
 	fmt.Println("Installing...")
-	return os.Rename("./inlo", "/usr/bin/inlo")
+	return os.Rename("./inlo", "~/.bin/inlo")
 }
 
 // Clean up after yourself

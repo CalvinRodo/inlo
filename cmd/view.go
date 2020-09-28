@@ -52,9 +52,25 @@ to quickly create a Cobra application.`,
 	},
 }
 
-func renderFile(c []string) string {
-	return strings.Join(c, "\n")
+func mapStrings(strings []string, f func(string) string) []string {
+
+	retval := make([]string,0)
+
+	for _, s := range strings {
+		retval = append(retval, f(s))
+	}
+	return retval
 }
+
+
+func renderFile(c []string) string {
+	toList := func(s string) string {
+		return "- " + s
+	}
+
+	return strings.Join(mapStrings(c, toList) , "\n")
+}
+
 
 
 func init() {
